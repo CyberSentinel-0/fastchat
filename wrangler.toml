@@ -1,0 +1,29 @@
+# Name of your Cloudflare Worker — you can change this to any name you like!
+name = "fastchat-backend"
+main = "src/worker.js"
+compatibility_date = "2024-09-23"
+
+# ---------------------------------------------------------
+# Cloudflare Durable Object Bindings
+# ---------------------------------------------------------
+[[durable_objects.bindings]]
+name = "CHAT_ROOM"
+class_name = "ChatRoomV2"
+
+[[durable_objects.bindings]]
+name = "USER_REGISTRY"
+class_name = "UserRegistry"
+
+# ---------------------------------------------------------
+# REQUIRED for SQLite-backed Durable Objects on Cloudflare
+# Works on both Free and Paid Cloudflare plans
+# ---------------------------------------------------------
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["ChatRoom", "UserRegistry", "ChatRoomV2"]
+
+# ---------------------------------------------------------
+# Observability & Logs
+# ---------------------------------------------------------
+[observability]
+enabled = true

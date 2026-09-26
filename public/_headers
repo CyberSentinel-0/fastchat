@@ -1,0 +1,19 @@
+/*
+  Cache-Control: no-cache, no-store, must-revalidate
+
+/app.js
+  Cache-Control: no-cache, must-revalidate
+  Content-Type: application/javascript; charset=utf-8
+
+/calls.js
+  Cache-Control: no-cache, must-revalidate
+  Content-Type: application/javascript; charset=utf-8
+
+/style.css
+  Cache-Control: no-cache, must-revalidate
+
+/index.html
+  Cache-Control: no-cache, must-revalidate
+
+/updates/*
+  Cache-Control: no-cache, no-store, must-revalidate, max-age=0

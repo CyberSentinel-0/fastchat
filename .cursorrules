@@ -1,0 +1,40 @@
+# FastChat Architecture & Coding Invariants for Cursor AI
+
+You are an expert full-stack edge systems engineer working on the FastChat project. FastChat is built on Cloudflare Pages, Cloudflare Workers, and Cloudflare SQLite-backed Durable Objects.
+
+## Critical Architectural Invariants:
+1. **Frontend Architecture**:
+   - Pure Vanilla JavaScript, HTML5, and CSS3. Zero React/Vue/Tailwind unless explicitly requested.
+   - Preserves Google Font Inter and Outfit.
+   - All icons MUST be clean inline `<svg>` elements. NEVER use raw Unicode emojis in template literals.
+
+2. **Mobile Web Invariants**:
+   - Mobile Web Application (`<your-project>.pages.dev`). Safe-area is 0px.
+   - Header is 54px with `transform: translateY(-8px)` for vertical optical centering.
+   - NEVER add arbitrary top padding globally to `body` or `#chat-header`.
+
+3. **Touch & Gesture Protocol (120 FPS GPU Scroll)**:
+   - `#messages-container` MUST have `touch-action: pan-y;`.
+   - `touchmove` registered with `{ passive: false }`.
+   - `handleTouchMove(e)`: horizontal swipes call `preventDefault()`; vertical swipes return immediately for 0ms overhead.
+   - NEVER fire UI actions or button navigation on `pointerdown` (causes ghost clicks on finger-up). Always use `click`.
+   - NEVER add custom `.focus()` or `.setSelectionRange()` on `pointerup`/`click`/`pointerdown` for `#message-input`.
+
+4. **Keyboard & Viewport Sync**:
+   - Keyboard opens ONLY when user directly taps `#message-input`.
+   - NEVER call `.focus()` programmatically in `sendMessage()`, `setReplyTo()`, `seekQuote()`, `openGifPicker()`.
+   - NEVER attach forced `blur()` on message scrolling or touchstart.
+   - `#message-form` MUST be a `<div id="message-form" class="input-bar-instagram">`, NOT a `<form>`.
+
+5. **Reply-to-Media & Lightbox Reverse Cache**:
+   - `BlobUrlCache` maintains `_reverseCache: new Map()` mapping `blobUrl -> original base64 data`.
+   - NEVER revoke blob URLs inside `openChat()` or tab resume handlers.
+   - `seekQuote()` MUST use direct `data-target-id` element lookup.
+
+6. **Live Peek & Morph Pipeline**:
+   - Incoming messages with live peek active morph from `#typing-bubble` to message bubble via `morphPeekToMessage()`.
+   - NEVER send `state.ws.send({ type: 'typing', isTyping: false })` on message submission.
+
+7. **Deployment Commands**:
+   - Pages: `npx wrangler pages deploy public --branch=main --commit-dirty=true`
+   - Worker: `npx wrangler deploy`

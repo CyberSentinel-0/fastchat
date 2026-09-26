@@ -1,0 +1,16 @@
+{
+    "name": "FastChat Edge",
+    "short_name": "FastChat",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#121212",
+    "theme_color": "#121212",
+    "icons": [
+        {
+            "src": "https://via.placeholder.com/192", 
+            "sizes": "192x192",
+            "type": "image/png"
+        }
+    ]
+}
+

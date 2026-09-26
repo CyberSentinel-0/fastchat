@@ -1,0 +1,1883 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-content">
+    <meta name="theme-color" content="#09090b">
+    <title>FastChat Edge</title>
+    <style>
+        html,
+        body {
+            background: #09090b;
+            margin: 0;
+            padding: 0;
+            color: #f4f4f5
+        }
+    </style>
+    <link rel="manifest" href="/manifest.json">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=11.5">
+</head>
+
+<body>
+    <div id="app">
+
+        <!-- 1. The Login Page (Overlay) - V6 Zero-Knowledge Architecture -->
+        <div id="auth-screen" class="screen">
+            <!-- Pure CSS Ambient Background Grid & Static Stars (Zero JS / Zero Canvas) -->
+            <div class="pure-css-ambient" aria-hidden="true">
+                <div class="css-orb orb-1"></div>
+                <div class="css-orb orb-2"></div>
+                <div class="css-star star-1"></div>
+                <div class="css-star star-2"></div>
+                <div class="css-star star-3"></div>
+                <div class="css-star star-4"></div>
+                <div class="css-star star-5"></div>
+                <div class="css-star star-6"></div>
+                <div class="css-star star-7"></div>
+                <div class="css-star star-8"></div>
+            </div>
+
+            <div class="auth-wrapper">
+                <!-- Branding Header -->
+                <header class="auth-header">
+                    <div class="brand-badge">
+                        <span class="badge-pulse"></span>
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                        <span>Zero-Knowledge Architecture</span>
+                    </div>
+
+                    <h1 class="brand-title">FastChat</h1>
+                    <p class="tagline">No email. No phone number. <br> <span class="highlight">100% Anonymous & Super Fast.</span></p>
+                </header>
+
+                <!-- Futuristic Glassmorphic Auth Card -->
+                <div class="auth-card">
+                    <!-- Sliding Segmented Tab Switcher with Icons -->
+                    <div class="tab-switcher" role="tablist">
+                        <div class="tab-slider" id="tab-slider"></div>
+                        <button type="button" class="tab-btn active" id="tab-login" role="tab" aria-selected="true">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                                <polyline points="10 17 15 12 10 7"></polyline>
+                                <line x1="15" y1="12" x2="3" y2="12"></line>
+                            </svg>
+                            <span>Sign In</span>
+                        </button>
+                        <button type="button" class="tab-btn" id="tab-register" role="tab" aria-selected="false">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="8.5" cy="7" r="4"></circle>
+                                <line x1="20" y1="8" x2="20" y2="14"></line>
+                                <line x1="23" y1="11" x2="17" y2="11"></line>
+                            </svg>
+                            <span>Register</span>
+                        </button>
+                    </div>
+
+                    <!-- Welcome Title & Dynamic Subtitle -->
+                    <div class="card-title-group">
+                        <h2 id="auth-title">Welcome Back</h2>
+                        <p id="auth-subtitle">Enter your secret credentials to sync chat history</p>
+                    </div>
+
+                    <!-- Dynamic Error Alert Box -->
+                    <div id="auth-error" class="auth-error hidden" role="alert">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                        <span id="auth-error-msg"></span>
+                    </div>
+
+                    <!-- Main Form (Protected against Chrome Autofill) -->
+                    <div id="auth-form" class="auth-form-wrap" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-form-type="other">
+                        <!-- Username Field -->
+                        <div class="input-group">
+                            <div class="label-row">
+                                <label for="username-input">Username</label>
+                                <span class="input-hint" id="username-hint">Encrypted handle</span>
+                            </div>
+                            <div class="input-field-wrap">
+                                <div class="field-icon">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="12" cy="7" r="4"></circle>
+                                    </svg>
+                                </div>
+                                <input 
+                                    type="text" 
+                                    id="username-input" 
+                                    placeholder="e.g. shadow_runner" 
+                                    autocomplete="off" 
+                                    autocorrect="off" 
+                                    autocapitalize="none" 
+                                    spellcheck="false" 
+                                    data-lpignore="true"
+                                    data-1p-ignore="true"
+                                    data-form-type="other"
+                                    aria-autocomplete="none"
+                                    required
+                                >
+                                <div class="field-status-dot" id="username-status"></div>
+                            </div>
+                        </div>
+
+                        <!-- Master Password Field -->
+                        <div class="input-group">
+                            <div class="label-row">
+                                <label for="password-input">Master Password</label>
+                                <span class="input-hint" id="password-hint">PBKDF2-SHA512</span>
+                            </div>
+                            <div class="input-field-wrap">
+                                <div class="field-icon">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                    </svg>
+                                </div>
+                                <input 
+                                    type="text" 
+                                    id="password-input" 
+                                    placeholder="••••••••••••" 
+                                    style="-webkit-text-security: disc; -moz-text-security: disc;"
+                                    autocomplete="new-password" 
+                                    autocorrect="off" 
+                                    autocapitalize="none" 
+                                    spellcheck="false" 
+                                    data-lpignore="true"
+                                    data-1p-ignore="true"
+                                    data-form-type="other"
+                                    aria-autocomplete="none"
+                                    required
+                                >
+                                <button type="button" id="toggle-password-btn" class="field-toggle-btn" aria-label="Toggle password visibility" tabindex="-1">
+                                    <svg id="eye-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="button" id="auth-btn" class="cyber-btn">
+                            <span class="btn-content">
+                                <span id="btn-text">Authenticate & Enter</span>
+                                <svg class="btn-arrow" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
+                            </span>
+                        </button>
+                    </div>
+
+                    <!-- Feature Security Badges -->
+                    <div class="security-pills-row">
+                        <div class="pill-badge" title="See text in real-time as the other person types">
+                            <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                            <span>Live Typing Peek</span>
+                        </div>
+                        <div class="pill-badge" title="Military-grade AES-256-GCM encryption">
+                            <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+                            <span>E2EE Encrypted</span>
+                        </div>
+                        <div class="pill-badge" title="Ephemeral RAM only - zero server logs">
+                            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                            <span>Zero Data Stored</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Clean, Informative Architecture Footer -->
+                <footer class="auth-footer">
+                    <p>FastChat Edge Infrastructure • Engineered for Extreme Speed & Total Anonymity</p>
+                    <div class="auth-signature">
+                        <span class="auth-sig-badge">— Legender</span>
+                    </div>
+                </footer>
+            </div>
+        </div>
+
+        <!-- 2. The Main Chat Layout -->
+        <div id="main-layout" class="hidden">
+
+            <!-- Sidebar (Left Pane) -->
+            <aside id="sidebar">
+                <header class="pane-header">
+                    <div class="user-profile">
+                        <div class="avatar-circle clickable" id="my-avatar" title="Change profile picture"></div>
+                        <span id="my-username"></span>
+                    </div>
+                    <div class="actions">
+                        <button id="new-chat-btn" class="action-btn primary-text" title="Start new chat">
+                            <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                            <span>New Chat</span>
+                        </button>
+                        <button id="logout-btn" class="action-btn" title="Log out">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                            <span>Logout</span>
+                        </button>
+                    </div>
+                </header>
+
+                <!-- Navigation Tabs: Direct / Groups / Random -->
+                <div class="convoo-nav-tabs" role="tablist">
+                    <button type="button" class="convoo-nav-tab active" id="tab-nav-direct" data-view="direct" role="tab" aria-selected="true">
+                        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                        <span>Direct</span>
+                    </button>
+                    <button type="button" class="convoo-nav-tab" id="tab-nav-groups" data-view="groups" role="tab" aria-selected="false">
+                        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        <span>Groups</span>
+                    </button>
+                    <button type="button" class="convoo-nav-tab" id="tab-nav-random" data-view="random" role="tab" aria-selected="false">
+                        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+                        <span>Random</span>
+                    </button>
+                </div>
+
+                <div class="search-bar">
+                    <div class="search-input-wrapper">
+                        <svg class="search-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                        </svg>
+                        <input type="search" placeholder="Search chats..." id="search-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="search" inputmode="search" data-lpignore="true" data-1p-ignore="true" data-form-type="other" aria-autocomplete="none">
+                    </div>
+                </div>
+
+                <div id="conversations-list">
+                    <!-- Javascript will populate this -->
+                </div>
+            </aside>
+
+            <!-- Chat Area (Right Pane) -->
+            <main id="chat-area">
+
+                <!-- Empty State (No chat selected) -->
+                <div id="no-chat-selected">
+                    <div class="empty-content">
+                        <h2>FastChat Edge</h2>
+                        <p>Select a user to start messaging</p>
+                    </div>
+                </div>
+
+                <!-- Active Chat View -->
+                <div id="active-chat-container" class="hidden">
+                    <!-- Luxury Dynamic & Gyroscope Wallpaper Layer (Full Screen Backdrop) -->
+                    <div id="chat-wallpaper-layer" class="chat-wallpaper-layer">
+                        <canvas id="chat-wallpaper-canvas" class="chat-wallpaper-canvas" width="160" height="280"></canvas>
+                        <div id="chat-wallpaper-image" class="chat-wallpaper-image"></div>
+                        <div id="chat-wallpaper-dimmer" class="chat-wallpaper-dimmer"></div>
+                    </div>
+
+                    <header class="chat-header">
+                        <div class="chat-header-pill">
+                            <button id="back-btn" class="mobile-only header-back-btn" title="Back" aria-label="Back">
+                                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                                    <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                                </svg>
+                            </button>
+                            <div class="chat-info">
+                                <div class="avatar-circle small" id="chat-avatar"></div>
+                                <div class="header-text">
+                                    <div class="chat-title-row">
+                                        <h3 id="chat-title">User</h3>
+                                        <div id="ws-latency-badge" class="ws-latency-badge hidden" title="WebSocket Ping TTL (Round Trip Time)">
+                                            <span class="ping-dot"></span>
+                                            <span id="ws-latency-val">-- ms</span>
+                                        </div>
+                                    </div>
+                                    <div id="connection-status" class="status-text">Offline</div>
+                                </div>
+                            </div>
+                            <div class="chat-header-actions">
+                                <div id="standard-header-actions" class="standard-header-actions">
+                                    <button id="video-call-btn" class="header-action-btn" title="Video Call">
+                                        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+                                    </button>
+                                    <button id="audio-call-btn" class="header-action-btn" title="Audio Call">
+                                        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="kebab-menu-container">
+                            <button id="kebab-menu-btn" class="header-action-btn kebab-circle-btn" title="More options" style="position:relative;">
+                                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                                <span id="kebab-gaming-dot" class="kebab-gaming-dot hidden"></span>
+                            </button>
+                        </div>
+                    </header>
+
+                    <!-- Random Chat Navigation Board (Under Video & Call Options) -->
+                    <div id="random-action-bar" class="random-action-bar hidden">
+                        <div class="random-bar-label">
+                            <span class="random-pulse-dot"></span>
+                            <span>Random</span>
+                        </div>
+                        <div class="random-bar-btns">
+                            <button type="button" id="btn-random-end" class="random-bar-btn btn-end" title="End Chat">
+                                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+                                <span>End</span>
+                            </button>
+                            <button type="button" id="btn-random-skip" class="random-bar-btn btn-skip" title="Skip to Next Person">
+                                <span>Skip</span>
+                                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
+                            </button>
+                            <button type="button" id="btn-random-add" class="random-bar-btn btn-add-friend" title="Add as Friend">
+                                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+                                <span id="btn-random-add-label">Add Friend</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="chat-messages-wrapper">
+                        <!-- Center Finding/Matching Menu (Visible in Chat Screen when searching in Random) -->
+                        <div id="random-center-menu" class="random-center-menu hidden">
+                            <div class="random-center-icon">
+                                <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+                            </div>
+                            <h3 id="random-center-title" class="random-center-title">Finding someone to chat with...</h3>
+                            <div class="random-timer-badge" id="random-timer-badge">
+                                <span class="random-timer-pulse"></span>
+                                <span id="random-search-timer" class="random-timer-val">00:00</span>
+                            </div>
+                            <p id="random-center-desc" class="random-center-desc">Select keywords to match by interest, or choose Any.</p>
+                            <div class="random-keywords-list" id="random-keywords-list">
+                                <button type="button" class="random-keyword-chip active" data-topic="all">Any</button>
+                                <button type="button" class="random-keyword-chip" data-topic="general">General</button>
+                                <button type="button" class="random-keyword-chip" data-topic="tech">Tech</button>
+                                <button type="button" class="random-keyword-chip" data-topic="gaming">Gaming</button>
+                                <button type="button" class="random-keyword-chip" data-topic="movies">Movies</button>
+                                <button type="button" class="random-keyword-chip" data-topic="music">Music</button>
+                                <button type="button" class="random-keyword-chip" data-topic="coding">Coding</button>
+                            </div>
+                            <div class="random-center-actions">
+                                <button type="button" id="btn-random-search-now" class="btn-random-search-now">
+                                    <span class="random-search-spinner" id="random-search-spinner"></span>
+                                    <span id="random-search-btn-label">Looking for someone...</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="messages-container">
+                            <div id="messages-list">
+                                <!-- Javascript will populate this -->
+                            </div>
+                            <!-- Dedicated Typing & Live Peek Slot -->
+                            <div id="typing-container" class="hidden"></div>
+                        </div>
+
+                        <!-- Scroll to bottom button (WhatsApp style) -->
+                        <div id="scroll-bottom-btn" class="scroll-bottom-btn hidden" onclick="scrollToBottomAndReset()">
+                            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/><path d="M7.41 14.59L12 19.17l4.59-4.58L18 16l-6 6-6-6z" opacity="0.5"/></svg>
+                            <span id="scroll-badge" class="scroll-badge hidden">0</span>
+                        </div>
+                    </div>
+
+                    <footer class="chat-input-area">
+                        <!-- Reply Preview (shown when replying to a message) -->
+                        <div id="reply-preview" class="reply-preview hidden">
+                            <div class="reply-content">
+                                <span class="reply-name"></span>
+                                <span class="reply-text"></span>
+                            </div>
+                            <div class="reply-media hidden"></div>
+                            <button type="button" id="reply-close" class="reply-close" aria-label="Close reply">
+                                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none" style="pointer-events:none;"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            </button>
+                        </div>
+                        <!-- Editing Preview (shown when editing a message) -->
+                        <div id="editing-preview" class="editing-preview hidden">
+                            <div class="editing-bar-left">
+                                <div class="editing-icon-badge">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                                    </svg>
+                                </div>
+                                <div class="editing-content">
+                                    <span class="editing-label">Editing Message</span>
+                                    <span id="editing-text-preview" class="editing-text"></span>
+                                </div>
+                            </div>
+                            <button type="button" id="cancel-editing-btn" class="editing-close" aria-label="Cancel editing">
+                                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none" style="pointer-events:none;"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            </button>
+                        </div>
+                        <div class="chat-input-row">
+                            <div id="message-form" class="input-bar-instagram">
+                                <!-- Left side: Image button (becomes Search when typing) -->
+                                <button type="button" id="img-btn" class="input-icon-btn left-icon" title="Send Image">
+                                    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                                        <path
+                                            d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+                                    </svg>
+                                </button>
+                                <button type="button" id="search-effects-btn" class="hidden" style="display:none !important;" aria-hidden="true"></button>
+
+                                <!-- Center: Input field -->
+                                <div class="input-wrapper-ig">
+                                    <input type="search" id="message-input" placeholder="Message..." autocomplete="off" autocorrect="off" autocapitalize="sentences" spellcheck="false" enterkeyhint="send" inputmode="text" data-lpignore="true" data-1p-ignore="true" data-form-type="other" aria-autocomplete="none">
+                                </div>
+
+                                <!-- Right side: GIF button (collapses when typing) -->
+                                <button type="button" id="gif-btn" class="input-icon-btn gif-text"
+                                    title="Send GIF">GIF</button>
+                            </div>
+
+                            <!-- Dedicated Action Button: 100% Exact WhatsApp Mic (Pic 1) <-> Exact Send Plane (Pic 2) -->
+                            <button type="button" id="action-btn" class="mic-send-action-btn state-mic" title="Voice Note" aria-label="Voice Note or Send">
+                                <svg class="mic-send-svg" viewBox="0 0 100 100" width="52" height="52">
+                                    <!-- START ICON: 100% Exact WhatsApp Mic from User Pic 1 (No Horizontal Stand) -->
+                                    <g class="mic-group">
+                                        <rect class="mic-capsule" x="43.75" y="30.5" width="12.5" height="23" rx="6.25" fill="#111b21"/>
+                                        <path class="mic-cradle" d="M 36.5 49 C 36.5 56.5 42.5 62.5 50 62.5 C 57.5 62.5 63.5 56.5 63.5 49" fill="none" stroke="#111b21" stroke-width="5.2" stroke-linecap="round"/>
+                                        <path class="mic-stem" d="M 50 62.5 V 71" fill="none" stroke="#111b21" stroke-width="5.2" stroke-linecap="round"/>
+                                    </g>
+
+                                    <!-- U-Cradle Dynamic Sweep Ribbon (Circle 7: Sweeps from Top-Left to Top-Right) -->
+                                    <path class="u-swing-ribbon" d="M 36.5 49 C 36.5 56.5 42.5 62.5 50 62.5 C 57.5 62.5 63.5 56.5 63.5 49" fill="none" stroke="#111b21" stroke-width="5.2" stroke-linecap="round"/>
+
+                                    <!-- END ICON: 100% Exact Send Plane Chevron from User Pic 2 -->
+                                    <g class="plane-group">
+                                        <g class="plane-body">
+                                            <polygon class="plane-chevron" points="29,30 77,50 29,70 29,55 63.5,50 29,45" fill="#111b21"/>
+                                        </g>
+                                        <!-- 3 Horizontal Tail Speed Lines (Circle 5) -->
+                                        <g class="plane-speed-lines">
+                                            <line class="speed-line sl-1" x1="8" y1="38.5" x2="24" y2="38.5" stroke="#111b21" stroke-width="4.5" stroke-linecap="round"/>
+                                            <line class="speed-line sl-2" x1="2" y1="50.0" x2="24" y2="50.0" stroke="#111b21" stroke-width="4.5" stroke-linecap="round"/>
+                                            <line class="speed-line sl-3" x1="8" y1="61.5" x2="24" y2="61.5" stroke="#111b21" stroke-width="4.5" stroke-linecap="round"/>
+                                        </g>
+                                    </g>
+                                </svg>
+                            </button>
+
+                            <!-- Backward-compatibility hooks -->
+                            <button type="button" id="voice-btn" class="hidden" style="display:none !important;" aria-hidden="true"></button>
+                            <button type="button" id="send-btn" class="hidden" style="display:none !important;" aria-hidden="true"></button>
+                        </div>
+                        <!-- Hidden file inputs -->
+                        <input type="file" id="camera-input" accept="image/*" capture="environment" style="position:fixed; top:-9999px; left:-9999px; opacity:0; width:1px; height:1px;">
+                        <input type="file" id="gallery-input" accept="image/*,video/*" multiple style="position:fixed; top:-9999px; left:-9999px; opacity:0; width:1px; height:1px;">
+                        <input type="file" id="audio-file-input" accept="audio/*" multiple style="position:fixed; top:-9999px; left:-9999px; opacity:0; width:1px; height:1px;">
+                        <input type="file" id="video-file-input" accept="video/mp4,video/webm,video/*" multiple style="position:fixed; top:-9999px; left:-9999px; opacity:0; width:1px; height:1px;">
+                        <!-- Ultra-Sleek Apple macOS Floating Attachment Menu -->
+                        <div id="image-picker-modal" class="attach-menu-popover hidden">
+                            <div class="attach-menu-card">
+                                <button type="button" id="camera-btn" class="attach-menu-row" aria-label="Camera">
+                                    <div class="attach-row-icon">
+                                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path pathLength="100" d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                                            <circle pathLength="100" cx="12" cy="13" r="4"></circle>
+                                        </svg>
+                                    </div>
+                                    <span class="attach-row-label">Camera</span>
+                                    <span class="attach-row-arrow">›</span>
+                                </button>
+
+                                <button type="button" id="gallery-btn" class="attach-menu-row" aria-label="Gallery">
+                                    <div class="attach-row-icon">
+                                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <rect pathLength="100" x="3" y="3" width="18" height="18" rx="4" ry="4"></rect>
+                                            <circle pathLength="100" cx="8.5" cy="8.5" r="1.5"></circle>
+                                            <polyline pathLength="100" points="21 15 16 10 5 21"></polyline>
+                                        </svg>
+                                    </div>
+                                    <span class="attach-row-label">Gallery</span>
+                                    <span class="attach-row-arrow">›</span>
+                                </button>
+
+                                <button type="button" id="video-file-btn" class="attach-menu-row" aria-label="Video">
+                                    <div class="attach-row-icon">
+                                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <polygon pathLength="100" points="23 7 16 12 23 17 23 7"></polygon>
+                                            <rect pathLength="100" x="1" y="5" width="15" height="14" rx="3" ry="3"></rect>
+                                        </svg>
+                                    </div>
+                                    <span class="attach-row-label">Video</span>
+                                    <span class="attach-row-arrow">›</span>
+                                </button>
+
+                                <button type="button" id="audio-file-btn" class="attach-menu-row" aria-label="Audio">
+                                    <div class="attach-row-icon">
+                                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path pathLength="100" d="M9 18V5l12-2v13"></path>
+                                            <circle pathLength="100" cx="6" cy="18" r="3"></circle>
+                                            <circle pathLength="100" cx="18" cy="16" r="3"></circle>
+                                        </svg>
+                                    </div>
+                                    <span class="attach-row-label">Audio</span>
+                                    <span class="attach-row-arrow">›</span>
+                                </button>
+                            </div>
+                        </div>
+                    </footer>
+
+                    <!-- GIF Picker (Outside chat-input-area so it never inherits pointer-events:none) -->
+                    <div id="gif-picker" class="gif-picker hidden">
+                        <div class="gif-picker-header">
+                            <span>Search GIFs</span>
+                            <button type="button" id="gif-close-btn" class="modal-close-btn gif-close" aria-label="Close GIF search"><svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none" style="pointer-events:none;"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+                        </div>
+                        <div class="gif-search-wrapper">
+                            <svg class="gif-search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                            <input type="search" id="gif-search-input" placeholder="Search GIFs on Klipy..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="search" inputmode="search" data-lpignore="true" data-1p-ignore="true" data-form-type="other" aria-autocomplete="none">
+                            <button type="button" id="gif-search-clear" class="gif-search-clear hidden" aria-label="Clear search">&times;</button>
+                        </div>
+                        <div id="gif-results" class="gif-grid">
+                            <!-- GIF results will be populated here -->
+                        </div>
+                    </div>
+
+                    <!-- Reaction Picker Popup -->
+                    <div id="reaction-picker" class="reaction-picker hidden">
+                        <button class="reaction-btn" data-emoji="👍">👍</button>
+                        <button class="reaction-btn" data-emoji="❤️">❤️</button>
+                        <button class="reaction-btn" data-emoji="😂">😂</button>
+                        <button class="reaction-btn" data-emoji="😮">😮</button>
+                        <button class="reaction-btn" data-emoji="😢">😢</button>
+                        <button class="reaction-btn" data-emoji="🔥">🔥</button>
+                        <button class="reaction-btn reaction-more" id="reaction-more-btn">+</button>
+                    </div>
+
+                    <!-- Full Emoji Picker Modal -->
+                    <div id="emoji-picker-modal" class="emoji-picker-modal hidden">
+                        <div class="emoji-picker-header">
+                            <span>Choose Reaction</span>
+                            <button type="button" id="emoji-picker-close" class="modal-close-btn emoji-close" aria-label="Close emoji picker"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none" style="pointer-events:none;"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+                        </div>
+                        <div class="emoji-grid" id="emoji-grid">
+                            <!-- Popular emojis -->
+                        </div>
+                    </div>
+
+                    <div id="effects-modal" class="hidden" style="display:none !important;" aria-hidden="true"></div>
+                </div>
+
+            </main>
+        </div>
+
+        <!-- New Conversation Modal (Direct Message & Create Group) -->
+        <div id="user-modal" class="modal hidden">
+            <div class="modal-content glass-effect">
+                <div class="user-modal-segmented" role="tablist">
+                    <button type="button" class="user-modal-tab active" id="tab-modal-direct">Direct Message</button>
+                    <button type="button" class="user-modal-tab" id="tab-modal-group">Create Group</button>
+                </div>
+
+                <!-- Direct Message Panel -->
+                <div id="panel-modal-direct" class="user-modal-panel">
+                    <input type="search" id="target-user-input" placeholder="Enter username (exact match)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="go" inputmode="text" data-lpignore="true" data-1p-ignore="true" data-form-type="other" aria-autocomplete="none">
+                    <div id="modal-error" class="error-text hidden"></div>
+                    <div class="modal-actions">
+                        <button id="modal-close" class="secondary">Cancel</button>
+                        <button id="start-chat-confirm" class="primary">Start Chat</button>
+                    </div>
+                </div>
+
+                <!-- Create Group Panel -->
+                <div id="panel-modal-group" class="user-modal-panel hidden">
+                    <div class="space-input-group">
+                        <label for="group-name-input">Group Name</label>
+                        <input type="text" id="group-name-input" placeholder="e.g. Gamers & Devs" maxlength="60" autocomplete="off">
+                    </div>
+                    <div class="space-input-group">
+                        <label for="group-topic-input">Description</label>
+                        <input type="text" id="group-topic-input" placeholder="e.g. Chat and discussions" maxlength="200" autocomplete="off">
+                    </div>
+                    <div class="space-input-group">
+                        <label for="group-members-input">Add Members (comma separated)</label>
+                        <input type="text" id="group-members-input" placeholder="e.g. alice, bob, charlie" autocomplete="off">
+                    </div>
+                    <div id="group-modal-error" class="error-text hidden"></div>
+                    <div class="modal-actions">
+                        <button type="button" id="group-modal-close" class="secondary">Cancel</button>
+                        <button type="button" id="create-group-confirm" class="primary">Create Group</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Group Member Modal -->
+        <div id="add-space-member-modal" class="modal hidden">
+            <div class="modal-content glass-effect">
+                <h3>Add Group Member</h3>
+                <input type="search" id="add-space-member-input" placeholder="Enter username" autocomplete="off">
+                <div id="add-space-member-error" class="error-text hidden"></div>
+                <div class="modal-actions">
+                    <button type="button" id="add-space-member-cancel" class="secondary">Cancel</button>
+                    <button type="button" id="add-space-member-confirm" class="primary">Add Member</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Group Details & Administration Drawer -->
+        <div id="space-drawer" class="space-drawer hidden">
+            <div class="space-drawer-backdrop" id="space-drawer-backdrop"></div>
+            <div class="space-drawer-panel">
+                <div class="space-drawer-header">
+                    <span class="space-drawer-title">Group Details</span>
+                    <button type="button" id="btn-space-drawer-close" class="modal-close-btn" aria-label="Close drawer">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+                </div>
+                <div class="space-drawer-body">
+                    <div class="space-hero-avatar">
+                        <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <h3 id="space-drawer-name" class="space-drawer-name">Group Name</h3>
+                    <p id="space-drawer-topic" class="space-drawer-topic">Group description</p>
+
+                    <div class="space-stats-row">
+                        <div class="space-stat-pill">
+                            <span class="stat-num" id="space-member-count">0</span>
+                            <span class="stat-lbl">Members</span>
+                        </div>
+                        <div class="space-stat-pill">
+                            <span class="stat-num" id="space-role-badge">Member</span>
+                            <span class="stat-lbl">Your Role</span>
+                        </div>
+                    </div>
+
+                    <div class="space-action-bar">
+                        <button type="button" id="btn-space-copy-link" class="space-quick-action" title="Copy Invite Link">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                            <span>Copy Invite Link</span>
+                        </button>
+                        <button type="button" id="btn-space-add-member" class="space-quick-action" title="Add Member">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+                            <span>Add Member</span>
+                        </button>
+                    </div>
+
+                    <div class="space-members-section">
+                        <div class="space-section-label">Members</div>
+                        <div class="space-members-list" id="space-members-list">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <div class="space-danger-zone">
+                        <button type="button" id="btn-space-leave" class="btn-space-leave">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                            <span>Leave Group</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete Chat Modal -->
+        <div id="delete-modal" class="modal hidden">
+            <div class="modal-content glass-effect">
+                <h3>Delete this chat?</h3>
+                <p class="modal-desc">Messages will be removed from your view. Add user again via New Chat to see
+                    conversation.</p>
+                <div class="modal-actions">
+                    <button id="delete-cancel" class="secondary">Cancel</button>
+                    <button id="delete-confirm" class="danger">Delete</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Clear Chat Confirmation Modal -->
+        <div id="clear-chat-modal" class="modal hidden">
+            <div class="modal-content glass-effect">
+                <h3>Clear all messages?</h3>
+                <p class="modal-desc">This will permanently delete all messages for both you and the other person. This cannot be undone.</p>
+                <div class="modal-actions">
+                    <button id="clear-chat-cancel" class="secondary">Cancel</button>
+                    <button id="clear-chat-confirm" class="danger">Clear All</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Voice Recording Modal -->
+        <div id="voice-modal" class="voice-modal hidden">
+            <div class="voice-modal-content">
+                <div class="voice-recording-indicator">
+                    <div class="voice-waveform">
+                        <span></span><span></span><span></span><span></span><span></span>
+                    </div>
+                    <span class="voice-timer">0:00</span>
+                </div>
+                <div class="voice-actions">
+                    <button type="button" id="voice-cancel" class="voice-cancel">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                            <path
+                                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+                        </svg>
+                    </button>
+                    <button type="button" id="voice-send" class="voice-send">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Wallpaper Picker Modal: Dynamic & Gyroscope Presets + Custom Photo -->
+        <div id="wallpaper-modal" class="wallpaper-modal hidden">
+            <div class="wallpaper-modal-header">
+                <span>Chat Wallpaper & Ambient FX</span>
+                <button type="button" id="wallpaper-close" class="modal-close-btn wallpaper-close" aria-label="Close wallpaper"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none" style="pointer-events:none;"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+            </div>
+            <div class="wallpaper-modal-content">
+                <!-- Mode Switcher Tabs -->
+                <div class="wp-mode-tabs">
+                    <button type="button" class="wp-tab-btn active" data-tab="dynamic">🌌 Dynamic (12)</button>
+                    <button type="button" class="wp-tab-btn" data-tab="patterns">🎨 Patterns (112)</button>
+                    <button type="button" class="wp-tab-btn" data-tab="custom">🖼️ Custom Photo</button>
+                </div>
+
+                <!-- Live Preview Card with Real-time Canvas (Always pinned at top) -->
+                <div class="wallpaper-preview has-dynamic" id="wallpaper-preview">
+                    <canvas id="wallpaper-preview-canvas" class="wallpaper-preview-canvas" width="160" height="100"></canvas>
+                    <div id="wallpaper-preview-image" class="wallpaper-preview-image"></div>
+                    <div id="wallpaper-preview-dimmer" class="wallpaper-preview-dimmer"></div>
+                    <div class="wallpaper-dummy-messages">
+                        <div class="dummy-msg received">Hey! Notice the ambient wallpaper? 🌌</div>
+                        <div class="dummy-msg sent">Yeah! It tilts smoothly when moving! ✨</div>
+                    </div>
+                </div>
+
+                <!-- Scrollable Presets Grid Area (Only this area scrolls) -->
+                <div class="wp-scroll-body" id="wp-scroll-body">
+                <!-- Dynamic Presets Panel -->
+                <div id="wp-panel-dynamic" class="wp-tab-panel active">
+                    <div class="wp-presets-grid">
+                        <button type="button" class="wp-preset-card active" data-preset="aurora">
+                            <div class="preset-thumb theme-aurora">
+                                <div class="thumb-orb o1"></div><div class="thumb-orb o2"></div>
+                            </div>
+                            <div class="preset-details">
+                                <span class="preset-name">Aurora Borealis</span>
+                                <small class="preset-desc">Emerald & Teal Glow</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-preset="cyberpunk">
+                            <div class="preset-thumb theme-cyberpunk">
+                                <div class="thumb-orb o1"></div><div class="thumb-orb o2"></div>
+                            </div>
+                            <div class="preset-details">
+                                <span class="preset-name">Cyberpunk Neon</span>
+                                <small class="preset-desc">Violet & Magenta Wave</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-preset="obsidian">
+                            <div class="preset-thumb theme-obsidian">
+                                <div class="thumb-orb o1"></div><div class="thumb-orb o2"></div>
+                            </div>
+                            <div class="preset-details">
+                                <span class="preset-name">Obsidian Liquid</span>
+                                <small class="preset-desc">Luxury Zinc Smoke</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-preset="sunset">
+                            <div class="preset-thumb theme-sunset">
+                                <div class="thumb-orb o1"></div><div class="thumb-orb o2"></div>
+                            </div>
+                            <div class="preset-details">
+                                <span class="preset-name">Sunset Ember</span>
+                                <small class="preset-desc">Ruby & Dark Amber</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-preset="nebula">
+                            <div class="preset-thumb theme-nebula">
+                                <div class="thumb-orb o1"></div><div class="thumb-orb o2"></div>
+                            </div>
+                            <div class="preset-details">
+                                <span class="preset-name">Cosmic Nebula</span>
+                                <small class="preset-desc">Star Cluster & Violet</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-preset="ocean">
+                            <div class="preset-thumb theme-ocean">
+                                <div class="thumb-orb o1"></div><div class="thumb-orb o2"></div>
+                            </div>
+                            <div class="preset-details">
+                                <span class="preset-name">Abyssal Ocean</span>
+                                <small class="preset-desc">Deep Bioluminescence</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-preset="solar">
+                            <div class="preset-thumb theme-solar">
+                                <div class="thumb-orb o1"></div><div class="thumb-orb o2"></div>
+                            </div>
+                            <div class="preset-details">
+                                <span class="preset-name">Golden Eclipse</span>
+                                <small class="preset-desc">Royal Molten Amber</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-preset="matrix">
+                            <div class="preset-thumb theme-matrix">
+                                <div class="thumb-orb o1"></div><div class="thumb-orb o2"></div>
+                            </div>
+                            <div class="preset-details">
+                                <span class="preset-name">Bio-Matrix</span>
+                                <small class="preset-desc">Cyber Emerald & Lime</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-preset="crimson">
+                            <div class="preset-thumb theme-crimson">
+                                <div class="thumb-orb o1"></div><div class="thumb-orb o2"></div>
+                            </div>
+                            <div class="preset-details">
+                                <span class="preset-name">Crimson Velvet</span>
+                                <small class="preset-desc">Scarlet Rose & Wine</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-preset="glacier">
+                            <div class="preset-thumb theme-glacier">
+                                <div class="thumb-orb o1"></div><div class="thumb-orb o2"></div>
+                            </div>
+                            <div class="preset-details">
+                                <span class="preset-name">Nordic Glacier</span>
+                                <small class="preset-desc">Crystalline Arctic Ice</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-preset="amethyst">
+                            <div class="preset-thumb theme-amethyst">
+                                <div class="thumb-orb o1"></div><div class="thumb-orb o2"></div>
+                            </div>
+                            <div class="preset-details">
+                                <span class="preset-name">Mystic Amethyst</span>
+                                <small class="preset-desc">Lavender Mist & Orchid</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-preset="solarflare">
+                            <div class="preset-thumb theme-solarflare">
+                                <div class="thumb-orb o1"></div><div class="thumb-orb o2"></div>
+                            </div>
+                            <div class="preset-details">
+                                <span class="preset-name">Solar Flare</span>
+                                <small class="preset-desc">Blazing Tangerine & Coral</small>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Luxury Aesthetic Patterns Panel -->
+                <div id="wp-panel-patterns" class="wp-tab-panel">
+                    <div class="wp-presets-grid">
+                        <button type="button" class="wp-preset-card active" data-pattern="doodle">
+                            <div class="preset-thumb pattern-thumb theme-doodle"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Chat Doodles</span>
+                                <small class="preset-desc">WhatsApp Classic</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="topography">
+                            <div class="preset-thumb pattern-thumb theme-topography"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Luxury Topo</span>
+                                <small class="preset-desc">Minimal Contours</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="hexgrid">
+                            <div class="preset-thumb pattern-thumb theme-hexgrid"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Cyber Hex Grid</span>
+                                <small class="preset-desc">Sci-Fi Honeycomb</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="constellations">
+                            <div class="preset-thumb pattern-thumb theme-constellations"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Constellations</span>
+                                <small class="preset-desc">Celestial Star Charts</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="seigaiha">
+                            <div class="preset-thumb pattern-thumb theme-seigaiha"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Zen Waves</span>
+                                <small class="preset-desc">Japanese Seigaiha Arcs</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="carbon">
+                            <div class="preset-thumb pattern-thumb theme-carbon"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Carbon Fiber</span>
+                                <small class="preset-desc">Stealth Twill Weave</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="circuit">
+                            <div class="preset-thumb pattern-thumb theme-circuit"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Cyber Circuit</span>
+                                <small class="preset-desc">Digital Microchip Bus</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="geometric">
+                            <div class="preset-thumb pattern-thumb theme-geometric"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Bauhaus Arcs</span>
+                                <small class="preset-desc">Modernist Curves</small>
+                            </div>
+                        </button>
+                        <!-- 8 Additional Luxury Procedural Patterns -->
+                        <button type="button" class="wp-preset-card" data-pattern="dna">
+                            <div class="preset-thumb pattern-thumb theme-dna"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">DNA Helix</span>
+                                <small class="preset-desc">Rotating 3D Strands</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="moire">
+                            <div class="preset-thumb pattern-thumb theme-moire"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Moiré Rings</span>
+                                <small class="preset-desc">Interference Waves</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="isometric">
+                            <div class="preset-thumb pattern-thumb theme-isometric"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Isometric Voxel</span>
+                                <small class="preset-desc">Tumbling 3D Cubes</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="mandala">
+                            <div class="preset-thumb pattern-thumb theme-mandala"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Sacred Mandala</span>
+                                <small class="preset-desc">Kaleidoscope Petals</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="ripples">
+                            <div class="preset-thumb pattern-thumb theme-ripples"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Rain Ripples</span>
+                                <small class="preset-desc">Expanding Wave Drops</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="glitch">
+                            <div class="preset-thumb pattern-thumb theme-glitch"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Cyber Glitch</span>
+                                <small class="preset-desc">Digital Tech Bursts</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="tessellation">
+                            <div class="preset-thumb pattern-thumb theme-tessellation"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Arabesque Stars</span>
+                                <small class="preset-desc">Islamic Octagrams</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="sonar">
+                            <div class="preset-thumb pattern-thumb theme-sonar"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Radar Sonar</span>
+                                <small class="preset-desc">360° Sweep Echo</small>
+                            </div>
+                        </button>
+                        <!-- 16 Additional Luxury Procedural Patterns -->
+                        <button type="button" class="wp-preset-card" data-pattern="matrix">
+                            <div class="preset-thumb pattern-thumb theme-matrix"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Matrix Rain</span>
+                                <small class="preset-desc">Digital Stream Code</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="plasma">
+                            <div class="preset-thumb pattern-thumb theme-plasma"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Neon Plasma</span>
+                                <small class="preset-desc">Fluid Chromatic Flow</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="synthwave">
+                            <div class="preset-thumb pattern-thumb theme-synthwave"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Retro Synthwave</span>
+                                <small class="preset-desc">Outrun Neon Horizon</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="quantum">
+                            <div class="preset-thumb pattern-thumb theme-quantum"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Quantum Orbitals</span>
+                                <small class="preset-desc">Atomic Electron Shells</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="nebula">
+                            <div class="preset-thumb pattern-thumb theme-nebula"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Cosmic Stardust</span>
+                                <small class="preset-desc">Deep Space Nursery</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="voronoi">
+                            <div class="preset-thumb pattern-thumb theme-voronoi"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Bio Voronoi</span>
+                                <small class="preset-desc">Living Crystal Cells</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="origami">
+                            <div class="preset-thumb pattern-thumb theme-origami"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Prismatic Shards</span>
+                                <small class="preset-desc">3D Low-Poly Diamond</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="soundwave">
+                            <div class="preset-thumb pattern-thumb theme-soundwave"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Audio Harmonics</span>
+                                <small class="preset-desc">Resonance Spectrum</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="hypercube">
+                            <div class="preset-thumb pattern-thumb theme-hypercube"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">4D Tesseract</span>
+                                <small class="preset-desc">Hypercube Projection</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="fibonacci">
+                            <div class="preset-thumb pattern-thumb theme-fibonacci"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Golden Spiral</span>
+                                <small class="preset-desc">Sacred Fibonacci</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="synapse">
+                            <div class="preset-thumb pattern-thumb theme-synapse"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Neural Synapse</span>
+                                <small class="preset-desc">AI Synaptic Mesh</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="prism">
+                            <div class="preset-thumb pattern-thumb theme-prism"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Laser Optics</span>
+                                <small class="preset-desc">Refracting Beams</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="dunes">
+                            <div class="preset-thumb pattern-thumb theme-dunes"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Velvet Dunes</span>
+                                <small class="preset-desc">Saharan Wind Curves</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="megacity">
+                            <div class="preset-thumb pattern-thumb theme-megacity"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Tokyo Metro</span>
+                                <small class="preset-desc">Cyberpunk Transit</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="vortex">
+                            <div class="preset-thumb pattern-thumb theme-vortex"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Hyperspace Warp</span>
+                                <small class="preset-desc">Wormhole Singularity</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="aurora_ribbon">
+                            <div class="preset-thumb pattern-thumb theme-aurora_ribbon"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Polar Curtains</span>
+                                <small class="preset-desc">Northern Lights</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="blackhole">
+                            <div class="preset-thumb pattern-thumb theme-blackhole"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Event Horizon</span>
+                                <small class="preset-desc">Relativistic Singularity</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="circuit_gold">
+                            <div class="preset-thumb pattern-thumb theme-circuit_gold"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Royal Circuit</span>
+                                <small class="preset-desc">24K Gold Motherboard</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="liquid_mercury">
+                            <div class="preset-thumb pattern-thumb theme-liquid_mercury"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Liquid Mercury</span>
+                                <small class="preset-desc">Fluid Chrome Ripples</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="crystal_lattice">
+                            <div class="preset-thumb pattern-thumb theme-crystal_lattice"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Emerald Lattice</span>
+                                <small class="preset-desc">Hexagonal Beryl Prisms</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="hologram_globe">
+                            <div class="preset-thumb pattern-thumb theme-hologram_globe"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Holo Terrestrial</span>
+                                <small class="preset-desc">3D Cyber Earth</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="neon_poly">
+                            <div class="preset-thumb pattern-thumb theme-neon_poly"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Neon Low-Poly</span>
+                                <small class="preset-desc">Violet Crystal Peaks</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="sakura">
+                            <div class="preset-thumb pattern-thumb theme-sakura"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Sakura Drift</span>
+                                <small class="preset-desc">Twilight Cherry Petals</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="fractal_tree">
+                            <div class="preset-thumb pattern-thumb theme-fractal_tree"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">L-System Tree</span>
+                                <small class="preset-desc">Branching Tree of Light</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="superconductor">
+                            <div class="preset-thumb pattern-thumb theme-superconductor"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Quantum Flux</span>
+                                <small class="preset-desc">Meissner Levitation Lines</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="astrolabe">
+                            <div class="preset-thumb pattern-thumb theme-astrolabe"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Astrolabe Chrono</span>
+                                <small class="preset-desc">Celestial Gears</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="deep_abyss">
+                            <div class="preset-thumb pattern-thumb theme-deep_abyss"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Deep Abyss</span>
+                                <small class="preset-desc">Bioluminescent Jellyfish</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="particle_vortex">
+                            <div class="preset-thumb pattern-thumb theme-particle_vortex"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Stellar Whirlpool</span>
+                                <small class="preset-desc">Orbital Convergence</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="quantum_cube">
+                            <div class="preset-thumb pattern-thumb theme-quantum_cube"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Rubik Quantum</span>
+                                <small class="preset-desc">4D Hypercube</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="art_deco">
+                            <div class="preset-thumb pattern-thumb theme-art_deco"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Gatsby Deco</span>
+                                <small class="preset-desc">Golden Sunburst Arches</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="chrono_halo">
+                            <div class="preset-thumb pattern-thumb theme-chrono_halo"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Chrono Halo</span>
+                                <small class="preset-desc">Spectral Aberration Rings</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="solar_corona">
+                            <div class="preset-thumb pattern-thumb theme-solar_corona"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Magnetic Corona</span>
+                                <small class="preset-desc">Plasma Solar Flares</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="zen_garden">
+                            <div class="preset-thumb pattern-thumb theme-zen_garden"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Zen Sand Garden</span>
+                                <small class="preset-desc">Raked Wave Ripples</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="koi_pond">
+                            <div class="preset-thumb pattern-thumb theme-koi_pond"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Bioluminescent Koi</span>
+                                <small class="preset-desc">Serene Deep Waters</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="fireflies">
+                            <div class="preset-thumb pattern-thumb theme-fireflies"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Enchanted Fireflies</span>
+                                <small class="preset-desc">Twilight Meadow Drift</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="rain_window">
+                            <div class="preset-thumb pattern-thumb theme-rain_window"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Rain on Glass</span>
+                                <small class="preset-desc">Calming Droplets</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="mandala_breathe">
+                            <div class="preset-thumb pattern-thumb theme-mandala_breathe"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Sacred Mandala</span>
+                                <small class="preset-desc">Meditative Gear Morph</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="silk_flow">
+                            <div class="preset-thumb pattern-thumb theme-silk_flow"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Liquid Silk Waves</span>
+                                <small class="preset-desc">Ethereal Satin Ribbons</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="celestial_clock">
+                            <div class="preset-thumb pattern-thumb theme-celestial_clock"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Orrery Spheres</span>
+                                <small class="preset-desc">Celestial Clockwork</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="ferrofluid">
+                            <div class="preset-thumb pattern-thumb theme-ferrofluid"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Magnetic Ferrofluid</span>
+                                <small class="preset-desc">Liquid Velvet Chrome</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="ocean_caustics">
+                            <div class="preset-thumb pattern-thumb theme-ocean_caustics"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Ocean Caustics</span>
+                                <small class="preset-desc">Sunlit Coral Reef</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="sand_dune_drift">
+                            <div class="preset-thumb pattern-thumb theme-sand_dune_drift"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Stardust Dunes</span>
+                                <small class="preset-desc">Wind-Swept Sahara</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="harmonic_pendulum">
+                            <div class="preset-thumb pattern-thumb theme-harmonic_pendulum"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Harmonic Pendulums</span>
+                                <small class="preset-desc">Snake Wave Convergence</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="biolum_waves">
+                            <div class="preset-thumb pattern-thumb theme-biolum_waves"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Bioluminescent Surf</span>
+                                <small class="preset-desc">Electric Plankton Tides</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="autumn_amber">
+                            <div class="preset-thumb pattern-thumb theme-autumn_amber"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Autumn Drift</span>
+                                <small class="preset-desc">Floating Maple Canopy</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="nebula_cloud">
+                            <div class="preset-thumb pattern-thumb theme-nebula_cloud"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Cosmic Stargaze</span>
+                                <small class="preset-desc">Volumetric Star Dust</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="kinetic_chime">
+                            <div class="preset-thumb pattern-thumb theme-kinetic_chime"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Kinetic Mobiles</span>
+                                <small class="preset-desc">Calder Wind Balance</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="prism_caustic">
+                            <div class="preset-thumb pattern-thumb theme-prism_caustic"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Prism Caustics</span>
+                                <small class="preset-desc">Spectral Rainbow Bands</small>
+                            </div>
+                        </button>
+                        <!-- 16 Additional Non-Circular Unique Aesthetic Patterns (65 - 80) -->
+                        <button type="button" class="wp-preset-card" data-pattern="stained_glass">
+                            <div class="preset-thumb pattern-thumb theme-stained_glass"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Cathedral Glass</span>
+                                <small class="preset-desc">Gothic Polygons & Jewel Beams</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="circuit_board">
+                            <div class="preset-thumb pattern-thumb theme-circuit_board"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Cyberpunk PCB</span>
+                                <small class="preset-desc">Gold Bus Lines & Packets</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="topographic_canyon">
+                            <div class="preset-thumb pattern-thumb theme-topographic_canyon"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Canyon Strata</span>
+                                <small class="preset-desc">Hypnotic Sandstone Bands</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="sumi_mountains">
+                            <div class="preset-thumb pattern-thumb theme-sumi_mountains"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Sumi-e Ink Fog</span>
+                                <small class="preset-desc">Layered Mountain Ridges</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="shoji_bamboo">
+                            <div class="preset-thumb pattern-thumb theme-shoji_bamboo"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Shoji Bamboo</span>
+                                <small class="preset-desc">Wind Shadows on Paper</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="synthwave_grid">
+                            <div class="preset-thumb pattern-thumb theme-synthwave_grid"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Outrun Highway</span>
+                                <small class="preset-desc">3D Infinite Neon Horizon</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="bauhaus_canvas">
+                            <div class="preset-thumb pattern-thumb theme-bauhaus_canvas"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">De Stijl Canvas</span>
+                                <small class="preset-desc">Mondrian Modernist Grid</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="audio_spectrogram">
+                            <div class="preset-thumb pattern-thumb theme-audio_spectrogram"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Audio Waterfall</span>
+                                <small class="preset-desc">Cascading Sound Resonance</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="weaving_loom">
+                            <div class="preset-thumb pattern-thumb theme-weaving_loom"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Jacquard Weave</span>
+                                <small class="preset-desc">Interlaced Tartan Threads</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="venetian_blinds">
+                            <div class="preset-thumb pattern-thumb theme-venetian_blinds"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Noir Blinds</span>
+                                <small class="preset-desc">Swaying Shadow Slats</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="kinetic_facade">
+                            <div class="preset-thumb pattern-thumb theme-kinetic_facade"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Kinetic Louvers</span>
+                                <small class="preset-desc">Pivoting Facade Tiles</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="basalt_waterfall">
+                            <div class="preset-thumb pattern-thumb theme-basalt_waterfall"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Basalt Cascade</span>
+                                <small class="preset-desc">Water Curtains on Stone</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="retro_terminal">
+                            <div class="preset-thumb pattern-thumb theme-retro_terminal"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Mainframe CRT</span>
+                                <small class="preset-desc">Phosphor Green Telemetry</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="origami_facets">
+                            <div class="preset-thumb pattern-thumb theme-origami_facets"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Origami Terrain</span>
+                                <small class="preset-desc">3D Low-Poly Triangles</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="vhs_drift">
+                            <div class="preset-thumb pattern-thumb theme-vhs_drift"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">VHS Analog Drift</span>
+                                <small class="preset-desc">90s Scanlines & Tracking</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="penrose_isometric">
+                            <div class="preset-thumb pattern-thumb theme-penrose_isometric"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Isometric Prisms</span>
+                                <small class="preset-desc">Escher Diamond Blocks</small>
+                            </div>
+                        </button>
+                        <!-- 8 Additional Unique Architectural & Physical Patterns (81 - 88) -->
+                        <button type="button" class="wp-preset-card" data-pattern="fluted_glass">
+                            <div class="preset-thumb pattern-thumb theme-fluted_glass"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Fluted Glass</span>
+                                <small class="preset-desc">Architectural Light Columns</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="wood_marquetry">
+                            <div class="preset-thumb pattern-thumb theme-wood_marquetry"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Herringbone Wood</span>
+                                <small class="preset-desc">Inlaid Veneer Sheen</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="seismic_drum">
+                            <div class="preset-thumb pattern-thumb theme-seismic_drum"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Seismograph Drum</span>
+                                <small class="preset-desc">Analog Waveform Chart</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="isometric_city">
+                            <div class="preset-thumb pattern-thumb theme-isometric_city"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Isometric Megacity</span>
+                                <small class="preset-desc">Cyberpunk Transit Skyline</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="papercraft_layers">
+                            <div class="preset-thumb pattern-thumb theme-papercraft_layers"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Papercraft Shadowbox</span>
+                                <small class="preset-desc">Layered 3D Cutout Scape</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="hex_cipher">
+                            <div class="preset-thumb pattern-thumb theme-hex_cipher"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Hex Data Stream</span>
+                                <small class="preset-desc">Cybernetic Memory Bus</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="laser_grating">
+                            <div class="preset-thumb pattern-thumb theme-laser_grating"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Laser Interference</span>
+                                <small class="preset-desc">Optical Moiré Chevrons</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="silk_drapery">
+                            <div class="preset-thumb pattern-thumb theme-silk_drapery"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Linen Drapery</span>
+                                <small class="preset-desc">Curtains Ocean Breeze</small>
+                            </div>
+                        </button>
+                        <!-- 8 Additional Dreamy & Aesthetic Patterns (89 - 96) -->
+                        <button type="button" class="wp-preset-card" data-pattern="rose_gold_marble">
+                            <div class="preset-thumb pattern-thumb theme-rose_gold_marble"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Rose Gold Marble</span>
+                                <small class="preset-desc">Luxury Pearl Metallic Veins</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="sakura_river">
+                            <div class="preset-thumb pattern-thumb theme-sakura_river"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Sakura Hanaikada</span>
+                                <small class="preset-desc">Floating Petal River</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="wisteria_breeze">
+                            <div class="preset-thumb pattern-thumb theme-wisteria_breeze"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Wisteria Trellis</span>
+                                <small class="preset-desc">Cascading Lilac Blossoms</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="crystal_prism_room">
+                            <div class="preset-thumb pattern-thumb theme-crystal_prism_room"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Chandelier Rainbows</span>
+                                <small class="preset-desc">Prisms on Blush Velvet</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="opal_aurora">
+                            <div class="preset-thumb pattern-thumb theme-opal_aurora"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Fire Opal Aurora</span>
+                                <small class="preset-desc">Iridescent Mineral Flash</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="glasswing_butterfly">
+                            <div class="preset-thumb pattern-thumb theme-glasswing_butterfly"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Glasswing Flutter</span>
+                                <small class="preset-desc">Translucent Wing Drift</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="velvet_peony">
+                            <div class="preset-thumb pattern-thumb theme-velvet_peony"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Velvet Peony</span>
+                                <small class="preset-desc">Layered Blush Petals</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="cotton_candy_sunset">
+                            <div class="preset-thumb pattern-thumb theme-cotton_candy_sunset"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Pastel Twilight</span>
+                                <small class="preset-desc">Cotton Candy Clouds</small>
+                            </div>
+                        </button>
+                        <!-- 8 Additional 24-Hour Mesmerizing & Contemplative Patterns (97 - 104) -->
+                        <button type="button" class="wp-preset-card" data-pattern="enchanted_jellyfish">
+                            <div class="preset-thumb pattern-thumb theme-enchanted_jellyfish"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Moon Jellyfish</span>
+                                <small class="preset-desc">Abyssal Bioluminescence</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="golden_hour_meadow">
+                            <div class="preset-thumb pattern-thumb theme-golden_hour_meadow"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Golden Meadow</span>
+                                <small class="preset-desc">Wheat & Sunset Wind</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="rain_on_car_window">
+                            <div class="preset-thumb pattern-thumb theme-rain_on_car_window"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Midnight Rain Glass</span>
+                                <small class="preset-desc">City Bokeh & Droplets</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="floating_lantern_festival">
+                            <div class="preset-thumb pattern-thumb theme-floating_lantern_festival"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Sky Lanterns</span>
+                                <small class="preset-desc">Ascent Over Mist</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="northern_lights_fjord">
+                            <div class="preset-thumb pattern-thumb theme-northern_lights_fjord"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Aurora Fjord</span>
+                                <small class="preset-desc">Polar Ribbon Mirror</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="sakura_tea_steam">
+                            <div class="preset-thumb pattern-thumb theme-sakura_tea_steam"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Tranquil Vapor</span>
+                                <small class="preset-desc">Curling Tea Smoke</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="amethyst_geode_growth">
+                            <div class="preset-thumb pattern-thumb theme-amethyst_geode_growth"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Amethyst Geode</span>
+                                <small class="preset-desc">Quartz Cavern Strata</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="feather_quill_whisper">
+                            <div class="preset-thumb pattern-thumb theme-feather_quill_whisper"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Gossamer Feathers</span>
+                                <small class="preset-desc">Iridescent Quill Drift</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="celestial_silk_nebula">
+                            <div class="preset-thumb pattern-thumb theme-celestial_silk_nebula"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Celestial Silk Nebula</span>
+                                <small class="preset-desc">Curl-Noise Cosmic Tapestry</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="living_dendrite_frost">
+                            <div class="preset-thumb pattern-thumb theme-living_dendrite_frost"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Dendrite Frost Arbor</span>
+                                <small class="preset-desc">60° Hexagonal Ice Ferns</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="bioluminescent_coral_abyss">
+                            <div class="preset-thumb pattern-thumb theme-bioluminescent_coral_abyss"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Abyssal Coral Reef</span>
+                                <small class="preset-desc">Deep Gorgonian & Spores</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="origami_kaleidoscope_shatter">
+                            <div class="preset-thumb pattern-thumb theme-origami_kaleidoscope_shatter"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Hyper-Prism Origami</span>
+                                <small class="preset-desc">3D Faceted Kinetic Crystal</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="mystic_koi_shadows">
+                            <div class="preset-thumb pattern-thumb theme-mystic_koi_shadows"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Mystic Koi Sanctuary</span>
+                                <small class="preset-desc">Articulated Swimming Physics</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="hyperborean_chronometer">
+                            <div class="preset-thumb pattern-thumb theme-hyperborean_chronometer"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Astronomical Tourbillon</span>
+                                <small class="preset-desc">Gothic Astrolabe Clockwork</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="enchanted_bonsai_spirit">
+                            <div class="preset-thumb pattern-thumb theme-enchanted_bonsai_spirit"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Ancient Bonsai Spirit</span>
+                                <small class="preset-desc">Gnarled Pine & Kodama Wisps</small>
+                            </div>
+                        </button>
+                        <button type="button" class="wp-preset-card" data-pattern="alchemical_liquid_quicksilver">
+                            <div class="preset-thumb pattern-thumb theme-alchemical_liquid_quicksilver"></div>
+                            <div class="preset-details">
+                                <span class="preset-name">Iridescent Quicksilver</span>
+                                <small class="preset-desc">Liquid Metal Coalescence</small>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Custom Photo Panel -->
+                <div id="wp-panel-custom" class="wp-tab-panel">
+                    <label class="wallpaper-file-label">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        <span id="wallpaper-file-status">Choose Photo from Device</span>
+                        <input type="file" id="wallpaper-input" accept="image/*" />
+                    </label>
+                </div>
+                </div>
+
+                <!-- Pinned Footer Controls (Always visible, never scrolls out of screen) -->
+                <div class="wallpaper-modal-footer">
+                    <!-- 3D Gyroscope Toggle Row -->
+                    <div class="wp-gyro-toggle-row">
+                        <div class="wp-gyro-info">
+                            <span class="wp-gyro-title">📱 3D Gyroscope Motion Tilt</span>
+                            <span class="wp-gyro-desc">Tilts background with phone movement & cursor</span>
+                        </div>
+                        <label class="wp-switch">
+                            <input type="checkbox" id="wallpaper-gyro-toggle" checked />
+                            <span class="wp-slider"></span>
+                        </label>
+                    </div>
+
+                    <!-- Contrast / Dimming Slider -->
+                    <div class="opacity-control">
+                        <div class="slider-header">
+                            <label for="wallpaper-opacity">Readability Dimmer</label>
+                            <span id="opacity-value">40%</span>
+                        </div>
+                        <input type="range" id="wallpaper-opacity" min="0" max="80" value="40" />
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="wallpaper-actions">
+                        <button type="button" id="wallpaper-clear" class="wallpaper-btn-clear">Remove</button>
+                        <button type="button" id="wallpaper-apply" class="wallpaper-btn-apply">Apply Wallpaper</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Picture Modal -->
+        <div id="profile-pic-modal" class="profile-pic-modal hidden">
+            <div class="profile-pic-modal-header">
+                <span>My Profile & Settings</span>
+                <button type="button" id="profile-pic-close" class="modal-close-btn profile-pic-close" aria-label="Close profile"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none" style="pointer-events:none;"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+            </div>
+            <div class="profile-pic-modal-content">
+                <div class="profile-pic-preview" id="profile-pic-preview">
+                    <span class="profile-pic-placeholder">No picture selected</span>
+                </div>
+                <div class="profile-pic-controls">
+                    <label class="profile-pic-file-label">
+                        <span>Choose Image</span>
+                        <input type="file" id="profile-pic-input" accept="image/*" />
+                    </label>
+                </div>
+                <div class="profile-pic-actions">
+                    <button type="button" id="profile-pic-remove" class="profile-pic-btn-remove">Remove Picture</button>
+                    <button type="button" id="profile-pic-apply" class="profile-pic-btn-apply">Save</button>
+                </div>
+                <div class="profile-update-section" id="profile-update-section">
+                    <div class="profile-update-divider"></div>
+                    <div class="profile-update-card">
+                        <div class="profile-update-title" id="profile-update-title">App Update</div>
+                        <div class="profile-update-desc" id="profile-update-desc">Click below to update the app directly.</div>
+                        <button type="button" class="profile-update-btn" id="profile-update-btn">Update App</button>
+                        <div class="profile-update-progress-container hidden" id="profile-update-progress-container">
+                            <div class="profile-update-progress-bar">
+                                <div class="profile-update-progress-fill" id="profile-update-progress-fill"></div>
+                            </div>
+                            <span class="profile-update-progress-text" id="profile-update-progress-text">Downloading: 0%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- =========================================
+         Call Overlays
+         ========================================= -->
+    <!-- Incoming Call Screen -->
+    <div id="incoming-call-screen" class="call-screen hidden">
+        <div class="call-screen-bg"></div>
+        <div class="call-info top">
+            <div class="avatar-circle large" id="caller-avatar"></div>
+            <h2 id="caller-name">Caller Name</h2>
+            <p id="call-type-text">Incoming Video Call...</p>
+        </div>
+        <div class="call-actions bottom">
+            <button id="decline-call-btn" class="call-btn btn-decline">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M12 9c-1.6 0-3.15.25-4.6.72v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08c-.18-.17-.29-.42-.29-.7 0-.28.11-.53.29-.71C3.34 8.78 7.46 7 12 7s8.66 1.78 11.71 4.67c.18.18.29.43.29.71 0 .28-.11.53-.29.71l-2.48 2.48c-.18.18-.43.29-.71.29-.27 0-.52-.11-.7-.28-.79-.74-1.69-1.36-2.67-1.85-.33-.16-.56-.5-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z"/></svg>
+            </button>
+            <button id="accept-call-btn" class="call-btn btn-accept">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+            </button>
+        </div>
+        <audio id="ringtone-audio" loop></audio>
+    </div>
+
+    <!-- Active Call Screen -->
+    <div id="active-call-screen" class="call-screen hidden">
+        <div id="active-call-bg" class="call-screen-bg hidden"></div>
+        <video id="remote-video" autoplay playsinline class="call-video-full hidden"></video>
+        <video id="local-video" autoplay playsinline muted class="call-video-pip hidden"></video>
+        <audio id="remote-audio" autoplay class="hidden"></audio>
+        
+        <div class="call-info active-call-top" id="active-call-overlay-top">
+            <div id="active-call-avatar-wrapper" class="avatar-circle large"></div>
+            <h2 id="active-call-name">Name</h2>
+            <p id="active-call-duration">Calling...</p>
+        </div>
+
+        <div class="call-actions active-call-bottom">
+            <button id="toggle-camera-btn" class="call-btn btn-secondary">
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+            </button>
+            <button id="toggle-mic-btn" class="call-btn btn-secondary">
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
+            </button>
+            <button id="camera-flip-btn" class="call-btn btn-secondary">
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M20 5h-3.17L15 3H9L7.17 5H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-8 13c-2.76 0-5-2.24-5-5 0-.58.1-1.13.29-1.63L9.61 10C9.23 10.6 9 11.28 9 12c0 1.66 1.34 3 3 3 1.25 0 2.31-.76 2.77-1.85l1.65 1.65c-.88.75-2.06 1.2-3.42 1.2zm4.71-3.37L14.39 12c.38-.6.61-1.28.61-2 0-1.66-1.34-3-3-3-1.25 0-2.31.76-2.77 1.85l-1.65-1.65C8.46 6.45 9.64 6 11 6c2.76 0 5 2.24 5 5 0 .58-.1 1.13-.29 1.63z" /></svg>
+            </button>
+            <button id="end-call-btn" class="call-btn btn-decline">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M12 9c-1.6 0-3.15.25-4.6.72v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08c-.18-.17-.29-.42-.29-.7 0-.28.11-.53.29-.71C3.34 8.78 7.46 7 12 7s8.66 1.78 11.71 4.67c.18.18.29.43.29.71 0 .28-.11.53-.29.71l-2.48 2.48c-.18.18-.43.29-.71.29-.27 0-.52-.11-.7-.28-.79-.74-1.69-1.36-2.67-1.85-.33-.16-.56-.5-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Kebab Dropdown Menu (at body root to escape all overflow clipping) -->
+    <div id="kebab-dropdown" class="kebab-dropdown hidden">
+        <div class="kebab-item" id="menu-stealth-notify">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z" /></svg>
+            <span>Nudge</span>
+        </div>
+        <div class="kebab-item" id="menu-wallpaper">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M4 4h7V2H4c-1.1 0-2 .9-2 2v7h2V4zm6 9l-4 5h12l-3-4-2.03 2.71L10 13zm7-4.5c0-.83-.67-1.5-1.5-1.5S14 7.67 14 8.5s.67 1.5 1.5 1.5S17 9.33 17 8.5zM20 2h-7v2h7v7h2V4c0-1.1-.9-2-2-2zm0 18h-7v2h7c1.1 0 2-.9 2-2v-7h-2v7zM4 13H2v7c0 1.1.9 2 2 2h7v-2H4v-7z" /></svg>
+            <span>Wallpaper</span>
+        </div>
+        <div class="kebab-item" id="menu-theme">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 19.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l1.9-1.9C9.31 19.63 10.61 20 12 20c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg>
+            <span>Theme</span>
+        </div>
+        <div class="kebab-item" id="menu-watch-party">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+            <span>Watch Party</span>
+        </div>
+        <div class="kebab-item" id="menu-clear-chat" style="color:#fca5a5">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+            <span>Clear All</span>
+        </div>
+    </div>
+
+
+        
+
+    <!-- Dedicated WhatsApp-Grade Cinematic Multi-Media Send Preview Modal -->
+    <div id="media-preview-modal" class="media-preview-modal hidden">
+        <div class="media-preview-backdrop"></div>
+        <div class="media-preview-header">
+            <button type="button" id="media-preview-cancel" class="media-preview-header-btn" aria-label="Cancel">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+                <span>Cancel</span>
+            </button>
+            <span class="media-preview-title">Send Photo</span>
+            <button type="button" id="media-preview-delete-btn" class="media-preview-header-btn media-preview-delete-btn" aria-label="Delete Item" style="display:none;">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+            </button>
+        </div>
+
+        <div class="media-preview-stage">
+            <img id="media-preview-image" src="" alt="Media Preview" class="media-preview-hero-img">
+            <audio id="media-preview-audio" controls class="media-preview-hero-audio hidden"></audio>
+            <video id="media-preview-video" controls playsinline class="media-preview-hero-video hidden"></video>
+        </div>
+
+        <div class="media-preview-footer">
+            <!-- WhatsApp Multi-Media Thumbnail Strip -->
+            <div id="media-preview-tray" class="media-preview-tray hidden">
+                <div id="media-tray-items" class="media-tray-items"></div>
+                <button type="button" id="media-tray-add-btn" class="media-tray-add-btn" title="Add More Media">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="media-caption-bar">
+                <input type="search" id="media-caption-input" placeholder="Add a caption..." autocomplete="off" autocorrect="off" autocapitalize="sentences" spellcheck="false" enterkeyhint="send" inputmode="text" data-lpignore="true" data-1p-ignore="true" data-form-type="other" aria-autocomplete="none">
+                <button type="button" id="media-preview-send-btn" class="media-preview-send-btn" aria-label="Send Media">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Capacitor Library -->
+    <script src="capacitor.js"></script>
+    <script defer src="watchparty.js?v=1.0"></script>
+    <script defer src="cinema.js?v=1.0"></script>
+    <script defer src="app.js?v=11.6"></script>
+    <script defer src="calls.js?v=11.4"></script>
+</body>
+
+</html>

@@ -1,0 +1,28 @@
+{
+  "name": "fastchat",
+  "version": "1.0.0",
+  "description": "FastChat - Real-time Encrypted P2P & Group Chat on Cloudflare Edge (Workers, Durable Objects, Pages)",
+  "main": "src/worker.js",
+  "scripts": {
+    "dev:backend": "wrangler dev",
+    "dev:frontend": "npx http-server public -p 8080",
+    "deploy:backend": "wrangler deploy",
+    "deploy:frontend": "wrangler pages deploy public --branch=main --commit-dirty=true",
+    "deploy": "wrangler deploy && wrangler pages deploy public --branch=main --commit-dirty=true"
+  },
+  "keywords": [
+    "cloudflare-workers",
+    "durable-objects",
+    "cloudflare-pages",
+    "webrtc",
+    "chat-app",
+    "realtime",
+    "websockets"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "wrangler": "^4.123.0"
+  }
+}
